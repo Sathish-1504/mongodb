@@ -1,3 +1,4 @@
+
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -25,7 +26,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mdb-deploy
+  name: mongo-db
 spec:
   replicas: 1
   selector:
@@ -33,7 +34,7 @@ spec:
       app: db
   template:
     metadata:
-      name: mdb-pod
+      name: mongo-db
       labels:
         app: db
     spec:
@@ -46,12 +47,12 @@ spec:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
             secretKeyRef:
-              name: mdb-secret
+              name: mongo-secret
               key: username
         - name: MONGO_INITDB_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mdb-secret
+              name: mongo-secret
               key: password
         volumeMounts:
         - name: mongo-storage
@@ -64,7 +65,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mdb-svc
+  name: mongodb-service
 spec:
   selector:
     app: db
